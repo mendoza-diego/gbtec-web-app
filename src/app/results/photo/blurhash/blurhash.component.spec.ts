@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BackgroundPhotoComponent } from './background-photo.component';
+import { BlurhashComponent } from './blurhash.component';
 
-describe('BackgroundPhotoComponent', () => {
-  let component: BackgroundPhotoComponent;
-  let fixture: ComponentFixture<BackgroundPhotoComponent>;
+describe('BlurhashComponent', () => {
+  let component: BlurhashComponent;
+  let fixture: ComponentFixture<BlurhashComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BackgroundPhotoComponent ]
+      declarations: [ BlurhashComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BackgroundPhotoComponent);
+    fixture = TestBed.createComponent(BlurhashComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

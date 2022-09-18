@@ -1,0 +1,16 @@
+<div class="container mt-5">
+  <div class="container" infiniteScroll [infiniteScrollDistance]="3" (scrolled)="onScroll()">
+    <div class="image-gallery">
+      <div class="column" *ngFor="let group of photosByColumn">
+        <div class="image-item" *ngFor="let photo of group">
+          <app-photo [photo]="photo"></app-photo>
+        </div>
+      </div>
+    </div>
+
+    <h3 *ngIf="noResults" class="text-center">Sorry, no results were found for your search.</h3>
+
+    <mat-progress-spinner class="m-auto mt-5" *ngIf="loading" diameter="40" color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+</div>

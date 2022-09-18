@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SearchComponent } from './search/search.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
-  { path: '', component: SearchComponent },
-  { path: 'r', loadChildren: () => import('./results/results.module').then(m => m.ResultsModule) }
+  { path: '', component: WelcomeComponent },
+  { path: 'r', loadChildren: () => import('./results/results.module').then(m => m.ResultsModule) },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
