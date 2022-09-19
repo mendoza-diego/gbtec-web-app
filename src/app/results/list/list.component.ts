@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { Photo } from '../../unsplash/photo/photo';
 import { UnsplashService } from '../../unsplash/unsplash.service';
@@ -21,7 +21,8 @@ export class ListComponent implements OnInit {
 
   constructor(
     private service: UnsplashService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.totalResults = 0;
     this.lastPage = 0;

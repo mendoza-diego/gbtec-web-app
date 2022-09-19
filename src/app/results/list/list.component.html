@@ -8,9 +8,14 @@
       </div>
     </div>
 
-    <h3 *ngIf="noResults" class="text-center">Sorry, no results were found for your search.</h3>
+    <div class="footer mt-5 text-center">
+      <h3 *ngIf="noResults" class="text-center">Sorry, no results were found for your search<strong *ngIf="q"> "{{q}}"</strong>.</h3>
+      <button mat-button *ngIf="!noResults && !loading && (currPage < lastPage || currPage == 0)" color="primary" (click)="onSearch(true)">
+        <mat-icon>expand_circle_down</mat-icon> Load more
+      </button>
 
-    <mat-progress-spinner class="m-auto mt-5" *ngIf="loading" diameter="40" color="primary" mode="indeterminate">
-    </mat-progress-spinner>
+      <mat-progress-spinner class="m-auto mt-5" *ngIf="loading" diameter="40" color="primary" mode="indeterminate">
+      </mat-progress-spinner>
+    </div>
   </div>
 </div>

@@ -1,0 +1,15 @@
+<div class="photo-container position-relative" (mouseenter)="showCard = true" (mouseleave)="showCard = false" (click)="openPhoto()" queryParamsHandling="merge">
+  <div class="card-img-overlay" *ngIf="showCard" [@inOutAnimation]>
+    <h3 class="card-user text-white position-absolute fixed-bottom">
+      <img class="card-user-photo rounded-circle" [src]="photo.user.profile_image.small">
+      <span class="card-user-name">{{photo.user.name}}</span>
+
+      <button mat-mini-fab color="white" class="card-photo-download" aria-label="Download Photo" (click)="photoService.downloadPhoto(photo.id, photo.urls.full);$event.stopPropagation();">
+        <mat-icon>download</mat-icon>
+      </button>
+    </h3>
+  </div>
+
+  <app-blurhash [hash]="photo.blur_hash" [URL]="photo.urls.small" [width]="photoService.getWidth('s')" [height]="photoService.calHeight('s', this.photo.width, this.photo.height)">
+  </app-blurhash>
+</div>

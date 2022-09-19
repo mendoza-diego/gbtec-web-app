@@ -1,9 +1,9 @@
 <form (ngSubmit)="search()" [formGroup]="searchForm">
   <mat-form-field hideRequiredMarker="true" floatLabel="never" class="search-input">
-    <mat-label>Search</mat-label>
+    <mat-label>What's your idea?</mat-label>
     <input matInput type="search" formControlName="q" [ngModel]="term" autofocus>
-    <button mat-icon-button matSuffix [disabled]="searchForm.controls['q'].value == ''" color="primary" aria-label="Discover" title="Discover your image">
+    <!-- <button mat-icon-button matSuffix [disabled]="searchForm.controls['q'].value == ''" color="primary" aria-label="Discover" title="Discover your image">
       <mat-icon>search</mat-icon>
-    </button>
+    </button> -->
   </mat-form-field>
 </form>

@@ -8,9 +8,9 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { SearchModule } from './search/search.module';
-import { BlurhashModule } from './results/photo/blurhash/blurhash.module';
 import { ErrorComponent } from './error/error.component';
 import { MaterialModule } from './material.module';
+import { HeaderModule } from './header/header.module';
 
 @NgModule({
   declarations: [
@@ -24,8 +24,8 @@ import { MaterialModule } from './material.module';
     HttpClientModule,
     BrowserAnimationsModule,
     SearchModule,
-    BlurhashModule,
-    MaterialModule
+    MaterialModule,
+    HeaderModule
   ],
   exports: [
     BrowserAnimationsModule

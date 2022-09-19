@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  term: string = '';
+  term: string = "";
   searchForm!: FormGroup;
 
   constructor(
@@ -21,12 +21,17 @@ export class SearchComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       q: [""]
     });
-
+    
     this.activatedRoute.queryParamMap.subscribe(p => this.term = p.get('q') ?? "");
   }
 
   search(): void {
     if (!this.searchForm.valid) return;
-    this.router.navigate(['r/photos'], { queryParams: this.searchForm.value });
+
+    if (this.searchForm.value.q) {
+      this.router.navigate(['/r/photos'], { queryParams: this.searchForm.value });
+    } else {
+      this.router.navigate(['/r/photos']);
+    }
   }
 }

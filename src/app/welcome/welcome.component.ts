@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { decode } from 'blurhash';
 import { Observable } from 'rxjs';
-import { BlurhashComponent } from '../results/photo/blurhash/blurhash.component';
+import { SearchComponent } from '../search/search.component';
 import { Photo } from '../unsplash/photo/photo';
 import { UnsplashService } from '../unsplash/unsplash.service';
 
@@ -12,12 +13,13 @@ import { UnsplashService } from '../unsplash/unsplash.service';
 export class WelcomeComponent implements OnInit, AfterViewInit {
   bgPhoto!: Photo;
   randomPhoto$!: Observable<Photo>;
-  @ViewChild(BlurhashComponent) blurHashEl!: BlurhashComponent;
+  term: string = "";
+  @ViewChild(SearchComponent, {static: false}) searchComponent!: SearchComponent;
 
   constructor(
     private elRef: ElementRef,
     private service: UnsplashService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) { }
 
   ngOnInit(): void {
@@ -35,12 +37,6 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   changeBackground(bgPhoto: Photo) {
     this.bgPhoto = bgPhoto;
     this.renderer.setStyle(this.elRef.nativeElement, "background-image", `url("${this.bgPhoto.urls.full}")`);
-
-    // this.renderer.setStyle(this.blurHashEl.canvas.nativeElement, "width", "auto");
-    // this.renderer.setStyle(this.blurHashEl.canvas.nativeElement, "height", "auto");
-
-    // this.renderer.setStyle(this.blurHashEl.img.nativeElement, "width", "auto");
-    // this.renderer.setStyle(this.blurHashEl.img.nativeElement, "height", "auto");
   }
 
   getPhotoWidth(): number {

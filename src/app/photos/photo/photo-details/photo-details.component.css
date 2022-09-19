@@ -1,0 +1,19 @@
+:host {
+  justify-content: center;
+  display: flex;
+}
+
+.container {
+  background-color: #f5f5f5;
+  padding: 40px;
+}
+
+h2 .user-profile-img {
+  padding-right: 15px;
+}
+
+.photo {
+  min-width: min(100%, 387px);
+  max-width: calc((calc(100vh - 250px)) * var(--aspect-ratio));
+  display: block;
+}

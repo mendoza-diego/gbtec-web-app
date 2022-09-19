@@ -5,6 +5,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
   { path: 'r', loadChildren: () => import('./results/results.module').then(m => m.ResultsModule) },
+  { path: 'photos', loadChildren: () => import('./photos/photos.module').then(m => m.PhotosModule) },
   { path: '**', redirectTo: '' }
 ];
 

@@ -1,6 +1,7 @@
 import { User } from "../user";
 import { PhotoExif } from "./photo-exif";
 import { PhotoLinks } from "./photo-links";
+import { PhotoLocation } from "./photo-location";
 import { PhotoUrls } from "./photo-urls";
 
 export interface Photo {
@@ -15,4 +16,8 @@ export interface Photo {
   exif: PhotoExif;
   views: number;
   downloads: number;
+  location: PhotoLocation;
+  created_at: Date;
+  topics: any;
+  related_collections: any;
 }
