@@ -3,8 +3,18 @@
   <h3 *ngIf="totalResults > 0">{{totalResults | number}} results found</h3>
   
   <div class="image-gallery mt-4">
-    <div class="column" *ngFor="let group of photosByColumn">
-      <div class="image-item" *ngFor="let photo of group">
+    <div class="column">
+      <div class="image-item" *ngFor="let photo of photosByColumn[0]">
+        <app-photo [photo]="photo"></app-photo>
+      </div>
+    </div>
+    <div class="column">
+      <div class="image-item" *ngFor="let photo of photosByColumn[1]">
+        <app-photo [photo]="photo"></app-photo>
+      </div>
+    </div>
+    <div class="column">
+      <div class="image-item" *ngFor="let photo of photosByColumn[2]">
         <app-photo [photo]="photo"></app-photo>
       </div>
     </div>
@@ -12,7 +22,7 @@
 
   <div class="footer mt-5 text-center pb-5">
     <h3 *ngIf="noResults" class="text-center">Sorry, no results were found for your search<strong *ngIf="q"> "{{q}}"</strong>.</h3>
-    <button mat-stroked-button *ngIf="!noResults && !loading && (currPage < lastPage || currPage == 0)" (click)="onSearch(true)">Load more</button>
+    <button mat-stroked-button *ngIf="!noResults && !loading && currPage < lastPage" (click)="onSearch(true)">Load more</button>
 
     <mat-progress-spinner class="m-auto mt-5" *ngIf="loading" diameter="40" color="primary" mode="indeterminate">
     </mat-progress-spinner>

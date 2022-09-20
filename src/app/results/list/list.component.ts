@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { catchError, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
+import { catchError, map, Observable, of, Subscription, tap } from 'rxjs';
 import { Photo } from '../../unsplash/photo/photo';
 import { UnsplashService } from '../../unsplash/unsplash.service';
 
@@ -10,8 +10,10 @@ import { UnsplashService } from '../../unsplash/unsplash.service';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit, OnDestroy {
+  photos: Photo[] = [];
   photosByColumn: Photo[][] = [[]];
-  
+  indexStartGroup: number = -1;
+
   photos$!: Observable<Photo[]>;
   photosSubscription$!: Subscription;
   queryParamSubscription$!: Subscription;
@@ -20,8 +22,8 @@ export class ListComponent implements OnInit, OnDestroy {
   lastPage: number;
   currPage: number;
   q!: string;
-  loading:boolean = false;
-  noResults:boolean = false;
+  loading: boolean = false;
+  noResults: boolean = false;
 
   constructor(
     private service: UnsplashService,
@@ -38,7 +40,7 @@ export class ListComponent implements OnInit, OnDestroy {
       map((params: ParamMap) => params),
     ).subscribe(q => {
       this.q = q.get("q")!;
-      this.onSearch()
+      this.onSearch();
     });
   }
 
@@ -48,6 +50,7 @@ export class ListComponent implements OnInit, OnDestroy {
       this.currPage = 0;
     }
 
+    this.loading = false;
     this.currPage++;
 
     if (this.currPage < this.lastPage || this.currPage == 1) {
@@ -65,7 +68,7 @@ export class ListComponent implements OnInit, OnDestroy {
           }),
           map(r => r.results ?? r),
           map(r => {
-            r.forEach(p =>  p.urls.customThumb = `${p.urls.raw}&q=60&w=700`);
+            r.forEach(p => p.urls.customThumb = `${p.urls.raw}&q=60&w=700`);
             return r;
           }),
           catchError((error: any): Observable<any> => {
@@ -86,15 +89,11 @@ export class ListComponent implements OnInit, OnDestroy {
 
   onGroupPhotos(photos: Photo[]) {
     if (this.photosByColumn.length == 0) this.photosByColumn = [[], [], []];
+    
+    this.indexStartGroup++;
+    if (this.indexStartGroup > 2) this.indexStartGroup = 0;
 
-    let startGroup = this.photosByColumn.reduce((p, c, i, a) => {
-      i = a.indexOf(p.length > c.length ? c : p);
-      return a[i];
-    });
-
-    let indexStartGroup = this.photosByColumn.indexOf(startGroup);
-
-    for (let i = 0; i < photos.length; i++, indexStartGroup++) {
+    for (let i = 0, indexStartGroup = this.indexStartGroup; i < photos.length; i++, indexStartGroup++) {
       if (!this.photosByColumn[indexStartGroup % 3]) this.photosByColumn[indexStartGroup % 3] = [];
       this.photosByColumn[indexStartGroup % 3].push(photos[i]);
     }
