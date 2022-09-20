@@ -53,12 +53,12 @@ export class ListComponent implements OnInit, OnDestroy {
     if (this.currPage < this.lastPage || this.currPage == 1) {
       this.noResults = false;
       this.loading = true;
-      
+
       this.photos$ = this.service.search(this.q, this.currPage)
         .pipe(
           tap(r => {
             this.totalResults = r.total;
-            this.lastPage = r.total_pages ?? this.lastPage + 2;
+            this.lastPage = r.total_pages ?? this.lastPage + (this.lastPage ? 1 : 3);
 
             if (r.total == 0) this.noResults = true;
             this.loading = false;
