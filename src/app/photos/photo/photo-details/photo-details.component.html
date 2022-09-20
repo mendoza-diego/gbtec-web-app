@@ -1,20 +1,20 @@
 <div *ngIf="photo" class="container-fluid px-5 mt-5">
   <div class="row justify-content-between mb-4">
     <div class="col">
-      <h2>
+      <h2 class="user-details" title="{{photo.user.bio ? photo.user.bio : 'View user profile'}}" (click)="goToUserPortfolio()">
         <img class="rounded-circle user-profile-img" [src]="photo.user.profile_image.small">
         <span>{{photo.user.name}}</span>
       </h2>
     </div>
     <div class="col text-end">
-      <button mat-flat-button color="primary" (click)="photoService.downloadPhoto(photo.id, photo.urls.full)">Download</button>
+      <button mat-flat-button color="primary" (click)="downloadPhoto(photo.id, photo.urls.full)">Download</button>
       <button mat-icon-button color="primary" [matMenuTriggerFor]="downloadMenu">
         <mat-icon class="align-middle">expand_more</mat-icon>
       </button>
       <mat-menu #downloadMenu="matMenu" xPosition="before">
-        <button mat-menu-item class="text-end" (click)="photoService.downloadPhoto(photo.id, photo.urls.small)">Small <small class="text-secondary">({{photoService.getDimensions('s', photo.width, photo.height)}})</small></button>
-        <button mat-menu-item class="text-end" (click)="photoService.downloadPhoto(photo.id, photo.urls.regular)">Medium <small class="text-secondary">({{photoService.getDimensions('r', photo.width, photo.height)}})</small></button>
-        <button mat-menu-item class="text-end" (click)="photoService.downloadPhoto(photo.id, photo.urls.raw)">Original Size <small class="text-secondary">({{photo.width}} X {{photo.height}})</small></button>
+        <button mat-menu-item class="text-end" (click)="downloadPhoto(photo.id, photo.urls.small)">Small <small class="text-secondary">({{photoService.getDimensions('s', photo.width, photo.height)}})</small></button>
+        <button mat-menu-item class="text-end" (click)="downloadPhoto(photo.id, photo.urls.regular)">Medium <small class="text-secondary">({{photoService.getDimensions('r', photo.width, photo.height)}})</small></button>
+        <button mat-menu-item class="text-end" (click)="downloadPhoto(photo.id, photo.urls.raw)">Original Size <small class="text-secondary">({{photo.width}} X {{photo.height}})</small></button>
       </mat-menu>
     </div>
   </div>  
@@ -30,8 +30,12 @@
   <div class="row">
     <div class="col">
       <h3>
-        <span class="badge rounded-pill text-bg-primary d-inline-block m-1">{{photo.views | number}} views</span>
-        <span class="badge rounded-pill text-bg-primary d-inline-block m-1">{{photo.downloads | number}} downloads</span>
+        <span class="badge rounded-pill text-bg-primary d-inline-block m-1">
+          <mat-icon class="align-middle">visibility</mat-icon> {{photo.views | number}} views
+        </span>
+        <span class="badge rounded-pill text-bg-primary d-inline-block m-1">
+          <mat-icon class="align-middle">download</mat-icon> {{photo.downloads | number}} downloads
+        </span>
       </h3>
     </div>
   </div>

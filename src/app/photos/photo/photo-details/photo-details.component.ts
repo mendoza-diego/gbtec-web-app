@@ -1,7 +1,7 @@
-import { Component, OnInit, Optional, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional, Renderer2, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Photo } from 'src/app/unsplash/photo/photo';
 import { PhotoService } from 'src/app/unsplash/photo/photo.service';
 import { UnsplashService } from 'src/app/unsplash/unsplash.service';
@@ -12,10 +12,12 @@ import { BlurhashComponent } from '../blurhash/blurhash.component';
   templateUrl: './photo-details.component.html',
   styleUrls: ['./photo-details.component.css']
 })
-export class PhotoDetailsComponent implements OnInit {
+export class PhotoDetailsComponent implements OnInit, OnDestroy {
   @ViewChild(BlurhashComponent) blurHashEl!: BlurhashComponent;
+
+  photoSubscription$!: Subscription;
+
   id!: string;
-  photo$!: Observable<Photo>;
   photo!: Photo;
   isDialog: boolean = false;
 
@@ -33,16 +35,20 @@ export class PhotoDetailsComponent implements OnInit {
   }
 
   onGet() {
-    this.photo$ = this.service.get(this.id);
-    this.photo$.subscribe(photo => {
+    this.photoSubscription$ = this.service.get(this.id).subscribe(photo => {
       this.photo = photo;
     });
   }
 
-  ngAfterViewInit(): void {
-    // this.renderer.setStyle(this.blurHashEl.canvas.nativeElement, "width", "100%");
-    // this.renderer.setStyle(this.blurHashEl.canvas.nativeElement, "height", "auto");
-    // this.renderer.setStyle(this.blurHashEl.img.nativeElement, "width", "100%");
-    // this.renderer.setStyle(this.blurHashEl.img.nativeElement, "height", "auto");
+  downloadPhoto(id: string, url: string) {
+    this.photoService.downloadPhoto(id, url);
+  }
+
+  goToUserPortfolio() {
+    window.open(this.photo.user.links.html, "_blank");
+  }
+
+  ngOnDestroy() {
+    this.photoSubscription$.unsubscribe();
   }
 }

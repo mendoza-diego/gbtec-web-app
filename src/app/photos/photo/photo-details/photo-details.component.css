@@ -17,3 +17,7 @@ h2 .user-profile-img {
   max-width: calc((calc(100vh - 250px)) * var(--aspect-ratio));
   display: block;
 }
+
+.user-details {
+  cursor: pointer;
+}

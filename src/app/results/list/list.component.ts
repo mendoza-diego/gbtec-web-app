@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { Photo } from '../../unsplash/photo/photo';
 import { UnsplashService } from '../../unsplash/unsplash.service';
 
@@ -9,9 +9,13 @@ import { UnsplashService } from '../../unsplash/unsplash.service';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
   photosByColumn: Photo[][] = [[]];
+  
   photos$!: Observable<Photo[]>;
+  photosSubscription$!: Subscription;
+  queryParamSubscription$!: Subscription;
+
   totalResults: number;
   lastPage: number;
   currPage: number;
@@ -30,10 +34,10 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParamMap.pipe(
+    this.queryParamSubscription$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params),
     ).subscribe(q => {
-      this.q = String(q.get("q"));
+      this.q = q.get("q")!;
       this.onSearch()
     });
   }
@@ -44,28 +48,33 @@ export class ListComponent implements OnInit {
       this.currPage = 0;
     }
 
-    if (this.currPage < this.lastPage || this.currPage == 0) {
+    this.currPage++;
+
+    if (this.currPage < this.lastPage || this.currPage == 1) {
       this.noResults = false;
       this.loading = true;
       
-      this.photos$ = this.service.search(this.q, this.currPage + 1)
+      this.photos$ = this.service.search(this.q, this.currPage)
         .pipe(
           tap(r => {
-            this.currPage++;
             this.totalResults = r.total;
-            this.lastPage = r.total_pages;
+            this.lastPage = r.total_pages ?? this.lastPage + 2;
 
             if (r.total == 0) this.noResults = true;
             this.loading = false;
           }),
-          map(r => r.results),
+          map(r => r.results ?? r),
+          map(r => {
+            r.forEach(p =>  p.urls.customThumb = `${p.urls.raw}&q=60&w=700`);
+            return r;
+          }),
           catchError((error: any): Observable<any> => {
             this.loading = false;
             return of(error as any);
           })
         );
 
-      this.photos$.subscribe(photos => {
+      this.photosSubscription$ = this.photos$.subscribe(photos => {
         this.onGroupPhotos(photos);
       });
     }
@@ -89,5 +98,10 @@ export class ListComponent implements OnInit {
       if (!this.photosByColumn[indexStartGroup % 3]) this.photosByColumn[indexStartGroup % 3] = [];
       this.photosByColumn[indexStartGroup % 3].push(photos[i]);
     }
+  }
+
+  ngOnDestroy() {
+    this.photosSubscription$.unsubscribe();
+    this.queryParamSubscription$.unsubscribe();
   }
 }

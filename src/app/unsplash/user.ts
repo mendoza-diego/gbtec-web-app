@@ -7,4 +7,5 @@ export interface User {
   portfolio_url: string;
   bio: string;
   profile_image: UserProfileImage;
+  links: any;
 }

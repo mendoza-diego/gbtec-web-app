@@ -46,6 +46,10 @@ export class PhotoComponent implements OnInit {
     // });
   }
 
+  downloadPhoto(id: string, url: string) {
+    this.photoService.downloadPhoto(id, url);
+  }
+
   openPhoto() {
     this.router.navigate(['/photos/', this.photo.id], { state: { dialog: true } });
   }

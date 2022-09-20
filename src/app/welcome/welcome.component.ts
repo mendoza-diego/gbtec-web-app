@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { decode } from 'blurhash';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { SearchComponent } from '../search/search.component';
 import { Photo } from '../unsplash/photo/photo';
 import { UnsplashService } from '../unsplash/unsplash.service';
@@ -10,11 +10,15 @@ import { UnsplashService } from '../unsplash/unsplash.service';
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
-export class WelcomeComponent implements OnInit, AfterViewInit {
-  bgPhoto!: Photo;
-  randomPhoto$!: Observable<Photo>;
-  term: string = "";
+export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(SearchComponent, {static: false}) searchComponent!: SearchComponent;
+
+  randomPhoto$!: Observable<Photo>;
+  randomPhotoSubscription$!: Subscription;
+
+  bgPhoto!: Photo;
+  term: string = "";
+  
 
   constructor(
     private elRef: ElementRef,
@@ -23,15 +27,11 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.getRandom();
+    this.randomPhoto$ = this.service.getRandom();
   }
 
   ngAfterViewInit(): void {
-    this.randomPhoto$.subscribe(p => this.changeBackground(p))
-  }
-
-  getRandom(): void {
-    this.randomPhoto$ = this.service.getRandom();
+    this.randomPhotoSubscription$ = this.randomPhoto$.subscribe(p => this.changeBackground(p));
   }
 
   changeBackground(bgPhoto: Photo) {
@@ -46,5 +46,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   getPhotoHeight(): number {
     const ratio = this.bgPhoto!.width / this.getPhotoWidth();
     return Math.round(this.bgPhoto!.height / ratio);
+  }
+
+  ngOnDestroy() {
+    this.randomPhotoSubscription$.unsubscribe();
   }
 }

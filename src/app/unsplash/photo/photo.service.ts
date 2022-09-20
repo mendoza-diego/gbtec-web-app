@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { first, Observable, Observer } from 'rxjs';
 import { UnsplashService } from '../unsplash.service';
 
 @Injectable({
@@ -12,6 +12,7 @@ export class PhotoService {
 
   getWidth(size: string): number {
     if (size == "s") return 400;
+    if (size == "ct") return 700;
     if (size == "r") return 1080;
     return 0;
   }
@@ -26,7 +27,7 @@ export class PhotoService {
   }
 
   downloadPhoto(id: string, url: string) {
-    this.unsplashService.trackDownload(id);
+    this.unsplashService.trackDownload(id).pipe(first()).subscribe();
 
     fetch(url)
       .then(resp => resp.blob())

@@ -4,4 +4,5 @@ export interface PhotoUrls {
   regular: string;
   small: string;
   thumb: string;
+  customThumb: string;
 }

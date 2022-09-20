@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  unsplashApiUrl: 'http://localhost:3000',
-  // unsplashApiUrl: "https://api.unsplash.com",
+  // unsplashApiUrl: 'http://localhost:3000',
+  unsplashApiUrl: "https://api.unsplash.com",
   unsplashApiId: 'tPRFxPmg-TgorIPy87kC8SPPdc-eA4RjQHJpqilYmFA',
 };
 
