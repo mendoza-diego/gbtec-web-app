@@ -4,7 +4,7 @@
       <img class="card-user-photo rounded-circle" [src]="photo.user.profile_image.small">
       <span class="card-user-name">{{photo.user.name}}</span>
 
-      <button mat-mini-fab color="white" class="card-photo-download" aria-label="Download Photo" (click)="downloadPhoto(photo.id, photo.urls.full);$event.stopPropagation();">
+      <button mat-mini-fab color="white" class="card-photo-download" aria-label="Download Photo" title="Download Photo" (click)="downloadPhoto(photo.id, photo.urls.full);$event.stopPropagation();">
         <mat-icon>download</mat-icon>
       </button>
     </h3>

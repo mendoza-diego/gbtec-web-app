@@ -6,7 +6,7 @@
         <span>{{photo.user.name}}</span>
       </h2>
     </div>
-    <div class="col text-end">
+    <div class="col-xs-12 col-sm text-end">
       <button mat-flat-button color="primary" (click)="downloadPhoto(photo.id, photo.urls.full)">Download</button>
       <button mat-icon-button color="primary" [matMenuTriggerFor]="downloadMenu">
         <mat-icon class="align-middle">expand_more</mat-icon>
