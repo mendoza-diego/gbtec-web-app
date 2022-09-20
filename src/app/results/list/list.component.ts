@@ -58,7 +58,7 @@ export class ListComponent implements OnInit, OnDestroy {
         .pipe(
           tap(r => {
             this.totalResults = r.total;
-            this.lastPage = r.total_pages ?? this.lastPage + (this.lastPage ? 1 : 3);
+            this.lastPage = r.total_pages ?? this.currPage + 2;
 
             if (r.total == 0) this.noResults = true;
             this.loading = false;
