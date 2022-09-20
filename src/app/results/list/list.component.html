@@ -1,4 +1,4 @@
-<div class="container-fluid mt-4" infiniteScroll [infiniteScrollDistance]="3" (scrolled)="onScroll()">
+<div class="container-fluid mt-4" infiniteScroll (scrolled)="onScroll()">
   <h1 *ngIf="q"><strong>{{q}}</strong></h1>
   <h3 *ngIf="totalResults > 0">{{totalResults | number}} results found</h3>
   
@@ -10,11 +10,9 @@
     </div>
   </div>
 
-  <div class="footer mt-5 text-center mb-5">
+  <div class="footer mt-5 text-center pb-5">
     <h3 *ngIf="noResults" class="text-center">Sorry, no results were found for your search<strong *ngIf="q"> "{{q}}"</strong>.</h3>
-    <button mat-button *ngIf="!noResults && !loading && (currPage < lastPage || currPage == 0)" color="primary" (click)="onSearch(true)">
-      <mat-icon>expand_circle_down</mat-icon> Load more
-    </button>
+    <button mat-stroked-button *ngIf="!noResults && !loading && (currPage < lastPage || currPage == 0)" (click)="onSearch(true)">Load more</button>
 
     <mat-progress-spinner class="m-auto mt-5" *ngIf="loading" diameter="40" color="primary" mode="indeterminate">
     </mat-progress-spinner>

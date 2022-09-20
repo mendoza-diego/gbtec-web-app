@@ -20,7 +20,7 @@ export class ListComponent implements OnInit, OnDestroy {
   lastPage: number;
   currPage: number;
   q!: string;
-  loading:boolean = true;
+  loading:boolean = false;
   noResults:boolean = false;
 
   constructor(
