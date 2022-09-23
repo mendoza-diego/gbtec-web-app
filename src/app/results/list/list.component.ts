@@ -1,14 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { BehaviorSubject, catchError, map, Observable, of, Subscription, tap } from 'rxjs';
+import { catchError, map, Observable, of, Subscription, tap } from 'rxjs';
 import { Photo } from '../../unsplash/photo/photo';
 import { UnsplashService } from '../../unsplash/unsplash.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit, OnDestroy {
   photos: Photo[] = [];
@@ -18,7 +17,6 @@ export class ListComponent implements OnInit, OnDestroy {
   photos$!: Observable<Photo[]>;
   photosSubscription$!: Subscription;
   queryParamSubscription$!: Subscription;
-  photosByColumn$ = new BehaviorSubject(this.photosByColumn);
 
   totalResults: number;
   lastPage: number;
@@ -98,7 +96,6 @@ export class ListComponent implements OnInit, OnDestroy {
     for (let i = 0, indexStartGroup = this.indexStartGroup; i < photos.length; i++, indexStartGroup++) {
       if (!this.photosByColumn[indexStartGroup % 3]) this.photosByColumn[indexStartGroup % 3] = [];
       this.photosByColumn[indexStartGroup % 3].push(photos[i]);
-      this.photosByColumn$.next(this.photosByColumn);
     }
   }
 
