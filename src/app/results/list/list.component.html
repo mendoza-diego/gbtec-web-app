@@ -1,20 +1,10 @@
-<div class="container-fluid mt-4" infiniteScroll (scrolled)="onScroll()">
+<div class="container-fluid mt-4" infiniteScroll [infiniteScrollDistance]="3" [infiniteScrollThrottle]="0" (scrolled)="onScroll()">
   <h1 *ngIf="q"><strong>{{q}}</strong></h1>
   <h3 *ngIf="totalResults > 0">{{totalResults | number}} results found</h3>
   
   <div class="image-gallery mt-4">
-    <div class="column">
-      <div class="image-item" *ngFor="let photo of photosByColumn[0]">
-        <app-photo [photo]="photo"></app-photo>
-      </div>
-    </div>
-    <div class="column">
-      <div class="image-item" *ngFor="let photo of photosByColumn[1]">
-        <app-photo [photo]="photo"></app-photo>
-      </div>
-    </div>
-    <div class="column">
-      <div class="image-item" *ngFor="let photo of photosByColumn[2]">
+    <div class="column" *ngFor="let column of photosByColumn$ | async">
+      <div class="image-item" *ngFor="let photo of column">
         <app-photo [photo]="photo"></app-photo>
       </div>
     </div>
